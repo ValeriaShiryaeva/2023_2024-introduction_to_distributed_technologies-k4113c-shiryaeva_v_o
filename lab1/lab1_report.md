@@ -13,4 +13,11 @@ Date of finished:
 Ознакомиться с инструментами Minikube и Docker, развернуть свой первый "под".
 ## Ход работы
 ### 1. Установка Docker, проверка текущей версии
+Установлен Docker. На сриншоте представлена текущая версия Docker.
+
 ![docker_version](/lab1/screenshots/docker_version.jpg)
+
+### Установка Minikube, проверка текущей версии
+Установлен Minikube. На скриншоте представлена текущая версия Minikube.
+
+![minikube_version](/lab1/screenshots/minikube_version.jpg)
