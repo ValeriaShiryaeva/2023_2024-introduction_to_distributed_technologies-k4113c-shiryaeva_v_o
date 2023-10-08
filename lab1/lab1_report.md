@@ -13,4 +13,4 @@ Date of finished:
 Ознакомиться с инструментами Minikube и Docker, развернуть свой первый "под".
 ## Ход работы
 ### 1. Установка Docker, проверка текущей версии
-
+![docker_version](lab1/screenshots/docker_version.jpg)
