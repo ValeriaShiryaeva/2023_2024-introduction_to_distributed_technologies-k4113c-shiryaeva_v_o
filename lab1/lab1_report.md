@@ -105,5 +105,5 @@ kubectl logs vault
 
 ## Схема организации контейеров и сервисов
 
-
+![scheme](/lab1/screenshots/scheme.jpg)
 
