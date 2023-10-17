@@ -7,3 +7,4 @@ Author: Shiryaeva Valeria
 Lab: Lab2  
 Date of create: 17.10.2023  
 Date of finished:
+---
