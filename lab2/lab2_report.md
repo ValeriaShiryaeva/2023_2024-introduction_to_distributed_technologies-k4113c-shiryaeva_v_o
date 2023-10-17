@@ -75,4 +75,32 @@ kubectl port-forward service/dep2 3000:3000
 
 ![connection](/lab2/screenshots/connection.jpg)
 
+### 6. Подключение к контейнерам и проверка переменных в веб-браузере
+Зайти в каждый контейнер можно с помощью команды:
+```
+minikube service dep2
+```
+В командной строке появится такой вывод
+
+![service_dep2](/lab2/screenshots/service_dep2.jpg)
+
+После чего откроется браузер со страницей
+
+![34787_dep2-c84f4597-n5w5s](/lab2/screenshots/34787_dep2-c84f4597-n5w5s.jpg)
+
+Повторный запуск команды открывает страницу второго контейнера
+
+![44539_dep2-c84f4597-nsm2h](/lab2/screenshots/44539_dep2-c84f4597-nsm2h.jpg)
+
+Также можно напрямую пробросить соединение с помощтю комнад:
+```
+kubectl port-forward pod/dep2-c84f4597-n5w5s 3000:3000
+
+kubectl port-forward pod/dep2-c84f4597-nsm2h 3000:3000 
+```
+А таком случае можно зайти по адресу `[::1]:3000` или `127.0.0.1:3000` и откроется контейнер, на который сейчас прокинут локальный порт.
+
+![3000_dep2-c84f4597-n5w5s](/lab2/screenshots/3000_dep2-c84f4597-n5w5s.jpg)
+
+![3000_dep2-c84f4597-nsm2h](/lab2/screenshots/3000_dep2-c84f4597-nsm2h.jpg)
 
