@@ -104,3 +104,16 @@ kubectl port-forward pod/dep2-c84f4597-nsm2h 3000:3000
 
 ![3000_dep2-c84f4597-nsm2h](/lab2/screenshots/3000_dep2-c84f4597-nsm2h.jpg)
 
+### 7. Логи
+Получить логи пода можно с помощью комнады:
+```
+kubectl logs dep2-c84f4597-nsm2h
+```
+
+![logs_dep2-c84f4597-nsm2h](/lab2/screenshots/logs_dep2-c84f4597-nsm2h.jpg)
+
+```
+kubectl logs dep2-c84f4597-n5w5s
+```
+
+![/logs_dep2-c84f4597-n5w5s](/lab2/screenshots/logs_dep2-c84f4597-n5w5s.jpg)
