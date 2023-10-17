@@ -6,7 +6,7 @@ Group: K4113c
 Author: Shiryaeva Valeria  
 Lab: Lab1  
 Date of create: 08.10.2023  
-Date of finished:
+Date of finished: 12.10.2023
 ---
 # Установка Docker и Minikube, мой первый манифест
 ## Цель работы
