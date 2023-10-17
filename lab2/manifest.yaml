@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dep2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: dep2
+  template:
+    metadata:
+      labels:
+        app: dep2
+    spec:
+      containers:
+      - name: itdt-contained-frontend
+        image: ifilyaninitmo/itdt-contained-frontend:master
+        ports:
+        - containerPort: 3000
+          name: http3000
+        env:
+          - name: REACT_APP_USERNAME
+            value: 'Shiryaeva Valeria'
+          - name: REACT_APP_COMPANY_NAME
+            value: 'FICT ITMO'
