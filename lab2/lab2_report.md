@@ -117,3 +117,7 @@ kubectl logs dep2-c84f4597-n5w5s
 ```
 
 ![/logs_dep2-c84f4597-n5w5s](/lab2/screenshots/logs_dep2-c84f4597-n5w5s.jpg)
+
+## Схема
+
+![scheme](/lab2/screenshots/scheme.jpg)
