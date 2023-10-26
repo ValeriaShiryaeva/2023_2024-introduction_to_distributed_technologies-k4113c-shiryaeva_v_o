@@ -6,7 +6,7 @@ Group: K4113c
 Author: Shiryaeva Valeria  
 Lab: Lab2  
 Date of create: 17.10.2023  
-Date of finished:
+Date of finished: 19.10.2023
 ---
 # Развертывание веб-сервиса в Minikube, доступ к веб-интерфейсу сервиса. Мониторинг сервиса
 ## Цель работы
