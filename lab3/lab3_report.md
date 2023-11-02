@@ -231,7 +231,7 @@ minikube tunnel
 ![open_site2](/lab3/screenshots/open_site2.jpg)
 
 ### 7. Проверка наличия сертификата
-Ниже представленны данные сертивиката:
+Ниже представленны данные сертиaиката:
 
 ![view_certificate](/lab3/screenshots/view_certificate.jpg)
 
