@@ -93,6 +93,8 @@ openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out cert.crt -
   - `- out cert.crt`: имя файла, в который будет сохранен сертификат (cert.crt).
   - `- keyout cert.key`: имя файла, в который будет сохранен закрытый ключ (cert.key).
 
+При заполнении инфрмации обязательным полем является `Common Name` указываем доменное имя (FQDN), по которому с помощью Ingress, мы будем заходить на сервер `valeria-lab3.app`.
+
 После выполнения данной команды, создаются 2 файла с заданными именами, которые представлены на скриншоте:
 
 ![create_file](/lab3/screenshots/create_file.jpg)
@@ -147,10 +149,10 @@ spec:
   - `name`: определяет имя Ingress, по которому его можно будет идентифицировать внутри кластера.
 - `spec`: jпределяет спецификацию Ingress:
   - `tls`: определяет настройки TLS для Ingress:
-    - `hosts`: cписок хостов, для которых действует TLS.
+    - `hosts`: cписок хостов, для которых действует TLS (указываем FQDN).
     - `secretName`: название секрета Kubernetes, который содержит TLS-сертификат и закрытый ключ.
   - `rules`: определяет правила маршрутизации в Ingress:
-    - `host`: задает хост, для которого применяется это правило.
+    - `host`: задает хост, для которого применяется это правило (указываем FQDN).
     - `http`: определяет правила HTTP-маршрутизации:
       - `paths`: определяет пути запросов HTTP:
         - `path`: задает путь запросов.
@@ -201,8 +203,36 @@ kubectl get ingress
 
 
 ### 6. Переход в браузер
-Для т
+Для начала необходимо добавить запись в файл `hosts`, чтобы связать ip-адрес и доменное имя (FQDN), для этого выполним комнаду:
+```
+echo "127.0.0.1 valeria-lab3.app" | sudo tee -a /etc/hosts
+```
+Данная команда выполняет вывод строки `127.0.0.1 valeria-lab3.app` в файл `/etc/hosts`.
+
+![add_hosts](/lab3/screenshots/add_hosts.jpg)
+
+Проверим, что в файл записалась строка `127.0.0.1 valeria-lab3.app`
+
+![view_hosts](/lab3/screenshots/view_hosts.jpg)
+
+Подключаемся к Ingress командой с помощью команды:
+```
+minikube tunnel
+```
+
+![start_tunnel](/lab3/screenshots/start_tunnel.jpg)
+
+Открываем страницу с адресом  `https://valeria-lab3.app`
+
+![open_site](/lab3/screenshots/open_site.jpg)
+
+Но из-за самоподписанного сертификата браурез не позволяет зайти на сайте. В браузере Google Chrome можно написать команду `thisisunsafe` после чего мы сможем зайти в браузер (инструкция на сайте: https://www.usitility.com/google-chrome/how-to-fix-connection-is-not-private-chrome/).
+
+![](/)
 
 ### 7. Проверка наличия сертификата
+Ниже представленны данные сертивиката:
+
+![view_certificate](/lab3/screenshots/view_certificate.jpg)
 
 ## Схема
