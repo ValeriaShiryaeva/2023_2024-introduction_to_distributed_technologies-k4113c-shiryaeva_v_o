@@ -228,7 +228,7 @@ minikube tunnel
 
 Но из-за самоподписанного сертификата браузер не позволяет зайти на сайт. В браузере `Google Chrome` можно написать команду `thisisunsafe` после чего мы сможем зайти в браузер (инструкция на сайте: https://www.usitility.com/google-chrome/how-to-fix-connection-is-not-private-chrome/).
 
-![](/)
+![open_site2](/lab3/screenshots/open_site2.jpg)
 
 ### 7. Проверка наличия сертификата
 Ниже представленны данные сертивиката:
