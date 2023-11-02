@@ -1,0 +1,71 @@
+apiVersion: v1
+data:
+  REACT_APP_USERNAME: "Shiryaeva Valeria"
+  REACT_APP_COMPANY_NAME: "ITMO"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: config
+
+---
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: lab3
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: lab3
+  template:
+    metadata:
+      labels:
+        app: lab3
+    spec:
+      containers:
+      - name: itdt-contained-frontend
+        image: ifilyaninitmo/itdt-contained-frontend:master
+        ports:
+        - containerPort: 3000
+        envFrom:
+          - configMapRef:
+              name: config
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab3
+spec:
+  type: ClusterIP
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: lab3
+
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: lab3
+spec:
+  tls:
+    - hosts:
+        - valeria-lab3.app
+      secretName: valeria-lab3-tls
+  rules:
+    - host: valeria-lab3.app
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: lab3
+                port:
+                  number: 3000
