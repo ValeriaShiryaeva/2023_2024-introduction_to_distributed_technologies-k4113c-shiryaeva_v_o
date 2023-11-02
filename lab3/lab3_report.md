@@ -236,3 +236,5 @@ minikube tunnel
 ![view_certificate](/lab3/screenshots/view_certificate.jpg)
 
 ## Схема
+
+![scheme](/lab3/screenshots/scheme.jpg)
