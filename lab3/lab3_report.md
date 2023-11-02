@@ -36,16 +36,16 @@ metadata:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: app
+  name: lab3
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: app
+      app: lab3
   template:
     metadata:
       labels:
-        app: app
+        app: lab3
     spec:
       containers:
       - name: itdt-contained-frontend
@@ -63,7 +63,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: app
+  name: lab3
 spec:
   type: ClusterIP
   ports:
@@ -71,7 +71,7 @@ spec:
       protocol: TCP
       targetPort: 3000
   selector:
-    app: app
+    app: lab3
 ```
 
 ### 3. Генерация TLS сертификата
@@ -81,7 +81,7 @@ spec:
 openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out cert.crt -keyout cert.key
 ```
 
-![]()
+![create_certificate](/lab3/screenshots/create_certificate.jpg)
 
 Разберем параметры команды:
   - `- new`: создет новый запрос на сертификат.
@@ -93,24 +93,26 @@ openssl req -new -newkey rsa:4096 -x509 -sha256 -days 365 -nodes -out cert.crt -
   - `- out cert.crt`: имя файла, в который будет сохранен сертификат (cert.crt).
   - `- keyout cert.key`: имя файла, в который будет сохранен закрытый ключ (cert.key).
 
+После выполнения данной команды, создаются 2 файла с заданными именами, которые представлены на скриншоте:
+
+![create_file](/lab3/screenshots/create_file.jpg)
+
 Далее создаем секрет, добавляя сертификат в `minikube` с помощью команды:
 ```
-kubectl create secret tls valeria-lab3-tls —key="cert.key" —cert="cert.crt"
+kubectl create secret tls valeria-lab3-tls --key="cert.key" --cert="cert.crt"
 ```
 
-![]()
+![create_secret](/lab3/screenshots/create_secret.jpg)
 
 ### 4. Создание Ingress 
-Сначала нужно запустить `minikube` с помощью команды:
-```
-minikube start
-```
-Далее необходимо подключить `ingress` с помощью команды:
+`Ingress` - это ресурс, с помощью которого мы можем задать единую точку входа в наш кластер. Он позволяет нам назначить для каждого сервиса свой URL, доступный вне кластера.
+
+Чтобы подключить `ingress`, необходимо выполнить команду:
 ```
 minikube addons enable ingress
 ```
 
-![]()
+![enable_ingress](/lab3/screenshots/enable_ingress.jpg)
 
 Далее необходимо написать манифест для `ingress`
 
@@ -159,12 +161,43 @@ spec:
               - `port`: определяет номер порта службы, на который будут направлены запросы .
 
 ### 5. Запуск написаного манифеста содержащего ConfigMap, Deployment, Service, Ingress
-Для примененения всего написанного применим конфигурации из написанного манифеста с помощью команды:
+Для примененения всего написанного в манифесте выполним команду:
 ```
 kubectl apply -f manifest.yaml
 ```
 
-![]()
+![create_manifest](/lab3/screenshots/create_manifest.jpg)
+
+Теперь проверим с помощью команд то, что создалось после:
+```
+kubectl get configmaps
+```
+
+![get_configmaps](/lab3/screenshots/get_configmaps.jpg)
+
+```
+kubectl get deployments
+```
+
+![get_deployments](/lab3/screenshots/get_deployments.jpg)
+
+```
+kubectl get pods
+```
+
+![get_pods](/lab3/screenshots/get_pods.jpg)
+
+```
+kubectl get services
+```
+
+![get_services](/lab3/screenshots/get_services.jpg)
+
+```
+kubectl get ingress
+```
+
+![get_ingress](/lab3/screenshots/get_ingress.jpg)
 
 
 ### 6. Переход в браузер
