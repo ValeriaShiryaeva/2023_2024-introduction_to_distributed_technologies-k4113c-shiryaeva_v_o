@@ -7,7 +7,7 @@ Group: K4113c
 Author: Shiryaeva Valeria  
 Lab: Lab3  
 Date of create: 26.10.2023  
-Date of finished:
+Date of finished: 02.11.2023
 ---
 # Сертификаты и "секреты" в Minikube, безопасное хранение данных
 ## Цель работы
