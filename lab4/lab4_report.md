@@ -38,3 +38,82 @@ kubectl get nodes
 kubectl get pods -l k8s-app=calico-node -A
 ```
 ![get_pods](/lab4/screenshots/get_pods.jpg)
+
+### 3. Пометка нод по принципц стойки
+Для проверки режима `IPAM` необходимо для запущеных нод указать `label` по признаку стойки с помощью команды:
+```
+kubectl label nodes <node-name> rack=<rack-id>
+```
+Где указывается название ноды и его id, в моем случае выполняем такие команды:
+```
+kubectl label nodes multinode-demo rack=0
+kubectl label nodes multinode-demo-m02 rack=1
+```
+
+![label_nodes](/lab4/screenshots/label_nodes.jpg)
+
+![label_nodes2](/lab4/screenshots/label_nodes2.jpg)
+
+### 4. Создание манифеста для Calico
+Для назначения IP адресов в Calico необходимо написать манифест для IPPool ресурса. С помощью IPPool можно создать IP-pool (блок IP-адресов), который выделяет IP-адреса только для узлов с меткой, которую мы указали ранее.
+```yaml
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: rack-0
+spec:
+  cidr: 192.168.10.0/24
+  ipipMode: Always
+  natOutgoing: true
+  nodeSelector: rack == "0"
+
+---
+
+apiVersion: projectcalico.org/v3
+kind: IPPool
+metadata:
+  name: rack-1
+spec:
+  cidr: 192.168.20.0/24
+  ipipMode: Always
+  natOutgoing: true
+  nodeSelector: rack == "1"
+```
+Рассмотрим поля манифеста:
+- `apiVersion`: версия API, используемая для API Calico.
+- `kind`: определяет тип объекта, который создается с помощью этого манифеста.
+- `metadata`: содержит метаданные IPPool:
+  - `name`: определяет имя IPPool, по которому его можно будет идентифицировать внутри кластера.
+- `spec`: определяет спецификацию IPPool:
+  - `cidr`: определяет диапазон IP-адресов в формате CIDR (Classless Inter-Domain Routing), который будет предоставлен данным пулом.
+  - `ipipMode`: определяет режим использования протокола IP-in-IP (IPIP).
+  - `natOutgoing`: определяет, будет ли выполняться Network Address Translation (NAT) при исходящем сетевом трафике из пула IP-адресов.
+  - `nodeSelector`: определяет, к каким узлам (нодам) применяется данный пул IP-адресов.
+
+ Чтобы применить манифест для IPPool, надо установить calicoct, для этого добавим в домашнюю директорию добавим файл `calicoctl.yaml`, используя команду:
+```
+kubectl create -f calicoctl.yaml
+```
+![create_calicoctl](/lab4/screenshots/create_calicoctl.jpg)
+
+После чего необоходимо удалить IPPool по-умолчанию с помощью команды:
+```
+kubectl delete ippools default-ipv4-ippool
+```
+
+![delete_ippools_default](/lab4/screenshots/delete_ippools_default.jpg)
+
+Далее создаем пулы с помощью команды:
+```
+kubectl exec -i -n kube-system calicoctl -- /calicoctl --allow-version-mismatch create -f - < manifest.yaml
+```
+
+![create_manifest](/lab4/screenshots/create_manifest.jpg)
+
+Проверяем, что создалось два пула:
+```
+kubectl exec -i -n kube-system calicoctl -- /calicoctl --allow-version-mismatch get ippool -o wide
+```
+
+![get_ippool](/lab4/screenshots/get_ippool.jpg)
+
