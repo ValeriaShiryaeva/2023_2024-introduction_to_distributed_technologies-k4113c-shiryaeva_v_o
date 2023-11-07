@@ -39,7 +39,7 @@ kubectl get pods -l k8s-app=calico-node -A
 ```
 ![get_pods](/lab4/screenshots/get_pods.jpg)
 
-### 3. Пометка нод по принципц стойки
+### 3. Пометка нод по принципу стойки
 Для проверки режима `IPAM` необходимо для запущеных нод указать `label` по признаку стойки с помощью команды:
 ```
 kubectl label nodes <node-name> rack=<rack-id>
@@ -117,3 +117,79 @@ kubectl exec -i -n kube-system calicoctl -- /calicoctl --allow-version-mismatch 
 
 ![get_ippool](/lab4/screenshots/get_ippool.jpg)
 
+### 5. Создание манифеста содержащего ConfigMap, Deployment, Service
+Мы можем использовать уже написанный манифест в прошлой лабораторной работе. Единственное, нужно поменять значение в секции `type` на `LoadBalancer`.
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: lab3
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+      targetPort: 3000
+  selector:
+    app: lab3
+  type: LoadBalancer
+```
+После чего можно запустить написанный манифест, содержащий ConfigMap, Deployment, Service, с помощью комнады:
+```
+kubectl apply -f manifest.yaml
+```
+
+![create_manifest1](/lab4/screenshots/create_manifest1.jpg)
+
+Проверим IP созданных подов с помощью команды:
+```
+kubectl get pods -o wide
+```
+
+![get_pods1](/lab4/screenshots/get_pods1.jpg)
+
+### 6. Проброс портов и проверка переменных
+Необходимо пробросить порт для подключения к сервису через браузер с помощью комнады:
+```
+kubectl port-forward service/lab3 3000:3000
+```
+Далее по адресу открываем ссылку: `127.0.0.1:3000`
+
+![lab3_pods](/lab4/screenshots/lab3_pods.jpg)
+
+Также до второго пода можно добраться, пробросив порт на на сам под с помощью команды:
+```
+kubectl port-forward pod/lab3-bf47574b7-6qzjc 3000:3000
+```
+
+![port-forward](/lab4/screenshots/port-forward.jpg)
+
+Далее по адресу открываем ссылку: `127.0.0.1:3000`
+
+![lab3_pods1](/lab4/screenshots/lab3_pods1.jpg)
+
+### 7. Проверка переменных
+Как можно заметить переменные `REACT_APP_USERNAME` и `REACT_APP_COMPANY_NAME` на скриншоте соответствуют переменным в `ConfigMap`. 
+```yaml
+apiVersion: v1
+data:
+  REACT_APP_USERNAME: "Shiryaeva Valeria"
+  REACT_APP_COMPANY_NAME: "ITMO"
+kind: ConfigMap
+metadata:
+  creationTimestamp: null
+  name: config
+```
+Перемнные `Container name` и `Container IP` меняются от контейнера к контейнеру, потому что задаются для каждого отдельно.
+
+### 8. Пинг соседа
+
+
+### 8.1 Второй способ пинг
+Пингуем второй контейнер `lab3-bf47574b7-6qzjc` с IP-адресом: `ping 192.168.20.193` с помощью команды:
+```
+kubectl exec -ti lab3-bf47574b7-6qzjc -- sh
+```
+
+![ping_193](/lab4/screenshots/ping_193.jpg)
+
+Можно заметить, что пакеты успешно доходят до адресата и обратно.
