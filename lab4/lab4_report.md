@@ -117,7 +117,7 @@ kubectl exec -i -n kube-system calicoctl -- /calicoctl --allow-version-mismatch 
 
 ![get_ippool](/lab4/screenshots/get_ippool.jpg)
 
-### 5. Создание манифеста содержащего ConfigMap, Deployment, Service
+### 5. Создание манифеста, содержащего ConfigMap, Deployment, Service
 Мы можем использовать уже написанный манифест в прошлой лабораторной работе. Единственное, нужно поменять значение в секции `type` на `LoadBalancer`.
 ```yaml
 apiVersion: v1
@@ -156,7 +156,7 @@ kubectl port-forward service/lab3 3000:3000
 
 ![lab3_pods](/lab4/screenshots/lab3_pods.jpg)
 
-Также до второго пода можно добраться, пробросив порт на на сам под с помощью команды:
+Также до второго пода можно добраться, пробросив порт на на сам под, с помощью команды:
 ```
 kubectl port-forward pod/lab3-bf47574b7-6qzjc 3000:3000
 ```
