@@ -33,7 +33,7 @@ kubectl get nodes
 ```
 ![get_nodes](/lab4/screenshots/get_nodes.jpg)
 
-Для проверки работы CNI Calico, посмотрим поды с меткой `calico-node` с помощтю команды:
+Для проверки работы CNI Calico, посмотрим поды с меткой `calico-node` с помощью команды:
 ```
 kubectl get pods -l k8s-app=calico-node -A
 ```
