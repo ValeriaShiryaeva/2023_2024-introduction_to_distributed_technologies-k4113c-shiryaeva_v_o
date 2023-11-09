@@ -182,7 +182,21 @@ metadata:
 Перемнные `Container name` и `Container IP` меняются от контейнера к контейнеру, потому что задаются для каждого отдельно.
 
 ### 8. Пинг соседа
+Снячала нужно `FQDN`пода, для этого используем команду
+```
+kubectl exec lab3-bf47574b7-6qzjc -- nslookup 192.168.20.193
+```
 
+![nslookup_193](/lab4/screenshots/nslookup_193.jpg)
+
+По найденному имени в поле `name` можно пигновать:
+```
+kubectl exec lab3-bf47574b7-6qzjc -- ping 192-168-20-193.lab3.default.svc.cluster.local
+```
+
+![ping_193](/lab4/screenshots/ping_193.jpg)
+
+Можно заметить, что пакеты успешно доходят до адресата и обратно.
 
 ### 8.1 Второй способ пинг
 Пингуем второй контейнер `lab3-bf47574b7-6qzjc` с IP-адресом: `ping 192.168.20.193` с помощью команды:
@@ -190,6 +204,10 @@ metadata:
 kubectl exec -ti lab3-bf47574b7-6qzjc -- sh
 ```
 
-![ping_193](/lab4/screenshots/ping_193.jpg)
+![ping_193_2](/lab4/screenshots/ping_193_2.jpg)
 
 Можно заметить, что пакеты успешно доходят до адресата и обратно.
+
+## Схема
+
+![scheme](/lab4/screenshots/scheme.jpg)
